@@ -1,0 +1,230 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("Tasks Manager")
+  body
+    header
+      include ../common/navbar.pug
+      +navbar(user)
+      .container
+        .row.align-items-center
+          .col-sm-12.text-center.text-md-left.offset-md-2.col-md-8.list
+            h1.mt-3.text-center Your Task
+            table.table
+              thead
+                tr
+                  th(scope="col") Task
+                  th(scope="col") Date
+                  th(scope="col") Time
+                  th(scope="col") Location
+                  th(scope="col") Edit
+                  th(scope="col")
+                  th(scope="col") Delete
+                tr
+              tbody
+                if task.task_loc
+                  if !task.task_time_end
+                    tr(id=task.id)
+                      td
+                        if task.isDone
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')` checked).mt-2td
+                        else
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')`).mt-2td
+                        span #{task.task_name}
+                      td
+                        span #{task.task_date}
+                      td
+                        span #{task.task_time_start}
+                      td
+                        span #{task.task_loc}
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/edit")  Edit
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/add-subtask") Add Subtask
+                      td
+                        form(action="/task/"  +task.id+"/delete", method="POST")
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm   Delete
+                  else
+                    tr(id=task.id)
+                      td
+                        if task.isDone
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')` checked).mt-2td
+                        else
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')`).mt-2td
+                        span #{task.task_name}
+                      td
+                        span #{task.task_date}
+                      td
+                        span #{task.task_time_start} - #{task.task_time_end}
+                      td
+                        span #{task.task_loc}
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/edit")  Edit
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/add-subtask").text-center Add Subtask
+                      td
+                        form(action="/task/"  +task.id+"/delete", method="POST")
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm   Delete
+                else
+                  if !task.task_time_end
+                    tr(id=task.id)
+                      td
+                        if task.isDone
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')` checked).mt-2td
+                        else
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')`).mt-2td
+                        span #{task.task_name}
+                      td
+                        span #{task.task_date}
+                      td
+                        span #{task.task_time_start}
+                      td
+                        span #{task.task_loc}
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/edit")  Edit
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/add-subtask").text-center Add Subtask
+                      td
+                        form(action="/task/"  +task.id+"/delete", method="POST")
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm   Delete
+                  else
+                    tr(id=task.id)
+                      td
+                        if task.isDone
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')` checked).mt-2td
+                        else
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`doneTask('${task.id}')`).mt-2td
+                        span #{task.task_name}
+                      td
+                        span #{task.task_date}
+                      td
+                        span #{task.task_time_start} - #{task.task_time_end}
+                      td
+                        span #{task.task_loc}
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/edit")  Edit
+                      td.text-center.text-info
+                        a(href="/task/" +task.id+ "/add-subtask").text-center Add Subtask
+                      td
+                        form(action="/task/"  +task.id+"/delete", method="POST")
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm  Delete
+
+                if subtasks
+                  table.table
+                    thead
+                      tr
+                        th(scope="col") Subtask
+                        th(scope="col")
+                        th(scope="col") Time
+                        th(scope="col") Location
+                        th(scope="col") Edit
+                        th(scope="col")
+                        th(scope="col") Delete
+                      tr
+                    tbody
+                      for subtask in subtasks
+                        if subtask.subtask_loc
+                          if !subtask.subtask_time_end
+                            tr(id=subtask.id)
+                              td
+                                span #{subtask.subtask_name}
+                              td
+                                span
+                              td
+                                span #{subtask.subtask_time_start}
+                              td
+                                span #{subtask.subtask_loc}
+                              td
+                                a(href="/task/" +subtask.id+ "/edit")  Edit
+                              td
+                                span
+                              td
+                                form(action="/task/"  +subtask.id+"/delete-sub", method="POST")
+                                  button(onclick=`deleteSubtask('${subtask.id}')`).btn.btn-danger.btn-sm   Delete
+                          else
+                            tr(id=subtask.id)
+                              td
+                                span #{subtask.subtask_name}
+                              td
+                                span
+                              td
+                                span #{subtask.subtask_time_start} - #{subtask.subtask_time_end}
+                              td
+                                span #{subtask.subtask_loc}
+                              td
+                                a(href="/task/" +subtask.id+ "/edit")  Edit
+                              td
+                                span
+                              td
+                                form(action="/task/"  +subtask.id+"/delete-sub", method="POST")
+                                  button(onclick=`deleteSubtask('${subtask.id}')`).btn.btn-danger.btn-sm   Delete
+                        else
+                          if !subtask.subtask_time_end
+                            tr(id=subtask.id)
+                              td
+                                span #{subtask.subtask_name}
+                              td
+                                span
+                              td
+                                span #{subtask.subtask_time_start}
+                              td
+                                span #{subtask.subtask_loc}
+                              td
+                                a(href="/task/" +subtask.id+ "/edit")  Edit
+                              td
+                                span
+                              td
+                                form(action="/task/"  +subtask.id+"/delete-sub", method="POST")
+                                  button(onclick=`deleteSubtask('${subtask.id}')`).btn.btn-danger.btn-sm   Delete
+                          else
+                            tr(id=subtask.id)
+                              td
+                                span #{subtask.subtask_name}
+                              td
+                                span
+                              td
+                                span #{subtask.subtask_time_start} - #{subtask.subtask_time_end}
+                              td
+                                span #{subtask.subtask_loc}
+                              td
+                                a(href="/task/" +subtask.id+ "/edit")  Edit
+                              td
+                                span
+                              td
+                                form(action="/task/"  +subtask.id+"/delete-sub", method="POST")
+                                  button(onclick=`deleteSubtask('${subtask.id}')`).btn.btn-danger.btn-sm  Delete
+
+
+        script.
+          $(document).ready(function(){
+
+          $('.add').click(function(){
+          $(".list").append(
+          '<form class="formgroup", action="/task/"+task.id+"add-subtask", method="post">' +
+            '<div class="mt-1 cancel fa fa-times text-danger">' +
+              '</div>' +
+            '<label class="small mb-1 mr-2 mt-4">Subtask:</label>' +
+            '<input class="form-control" name="subtask_name" type="name" placeholder="My Subtask">' +
+            '<div class="input-group-append mx-auto">' +
+              '<label class="small mb-1 mt-3 pr-md-5">Start from:' +
+                '<input class="form-control" id="time_start" name="subtask_time_start" type="time">' +
+                '</label>' +
+              '<label class="small mb-1 mt-3 pr-md-5">End at:' +
+                '<input class="form-control" id="time_end" name="subtask_time_end" type="time">' +
+                '</label></div>' +
+            '<label class="small mb-1 mt-2">Location:</label>' +
+            '<input class="form-control" name="subtask_loc" type="name" placeholder="Address">'+
+            '<div class = "input-group-append mx-auto">' +
+              '<button class="btn btn-info mt-3 mr-3" type="submit">Add Subtask'+
+                '</button></div>'+
+            '</form>'
+            );
+          });
+
+          $(".list").on('click', '.cancel', function(){
+          $(this).parent().remove();
+          });
+          });
+    include ../common/footer.pug
+    +footer()
+    script(src='/javascripts/tasks.js')

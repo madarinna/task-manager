@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("Tasks Manager")
+  body
+    header
+      include ../common/navbar.pug
+      +navbar(user)
+      .container
+        .row.align-items-center
+          .col-sm-12.offset-md-2.col-md-8
+            h1.mb-3.mt-3.text-center Let's Add Subtask!
+            .row
+              .col-sm-12.col-md-12
+                form(action="/task/"+task.id+"/add-subtask", method="POST")
+                  div.formgroup
+                    label.small.mb-1 Subtask name:
+                    input(name="subtask_name", type="name", placeholder="My Subtask").form-control
+                    .input-group-append.mx-auto
+                      label.small.mb-1.mt-3.pr-md-5 Start from:
+                        input(id="time_start", name="subtask_time_start", type="time").form-control
+                      label.small.mb-1.mt-3 End at:
+                          input(id="time_end", name="subtask_time_end", type="time").form-control
+                    label.small.mb-1.mt-2 Location:
+                    input(name="subtask_loc", type="name", placeholder="Address").form-control
+                  .input-group-append.mx-auto
+                    button(type="submit").btn.btn-info.mt-3.mr-3 Add Subtask

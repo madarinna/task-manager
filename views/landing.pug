@@ -1,0 +1,78 @@
+doctype html
+html(lang='en')
+  include common/head.pug
+  +head("Tasks Manager")
+    style
+      include ../public/stylesheets/style.css
+  body
+    header
+      include common/navbar.pug
+      +navbar(user)
+      .container.align-items-center
+        .row
+          .col-sm-12.offset-md-2.col-md-8
+            h1.mt-3.text-center Let's Add Your Tasks!
+            p.lead.text-center Log in to manage your tasks here. If you don't have an account, sign up first.
+            p.lead.mb-4.text-center You can also manage your team's tasks if you are an Admin.
+            .row
+              .col-sm-12.col-md-12
+                form(action="/", method="POST")
+                  div.formgroup.list
+                    label.small.mb-1 Task name:
+                    input(name="task_name", type="name", placeholder="My Task").form-control
+                    .input-group-append.mx-auto
+                      #task-datepicker(class="input-daterange input-group")
+                        label.small.mb-1.mt-3.pr-md-5 Date:
+                          input(type="text" id="date" name="task_date" placeholder="Select a date" data-date-format="DD, MM d").form-control
+                      label.small.mb-1.mt-3.pr-md-5 Start from:
+                        input(id="time_start", name="task_time_start", type="time").form-control
+                      label.small.mb-1.mt-3 End at:
+                          input(id="time_end", name="task_time_end", type="time").form-control
+                    label.small.mb-1.mt-2 Location:
+                    input(name="task_loc", type="name", placeholder="Address").form-control
+                  .input-group-append.mx-auto
+                    button(type="submit").btn.btn-info.mt-3.mr-3 Add Task
+                    a.text-info.mt-4.add Add Subtask
+      script.
+        var dateSelect     = $('#task-datepicker');
+        var dateTask     = $('#date');
+
+        dateSelect.datepicker({
+          autoclose: true,
+          format: "mm/dd/yy",
+          maxViewMode: 10,
+          startDate: "now"
+        }).on('change', function() {
+          var task_date = $.format.date(dateTask.datepicker('getDate'));
+        });
+
+      script.
+        $(document).ready(function(){
+
+        $('.add').click(function(){
+        $(".list").append(
+        '<div class="formgroup">' +
+          '<div class="mt-1 cancel fa fa-times text-danger">' +
+            '</div>' +
+          '<label class="small mb-1 mr-2 mt-4">Subtask:</label>' +
+          '<input class="form-control" name="subtask_name" type="name" placeholder="My Subtask">' +
+          '<div class="input-group-append mx-auto">' +
+            '<label class="small mb-1 mt-3 pr-md-5">Start from:' +
+              '<input class="form-control" id="time_start" name="subtask_time_start" type="time">' +
+              '</label>' +
+            '<label class="small mb-1 mt-3 pr-md-5">End at:' +
+              '<input class="form-control" id="time_end" name="subtask_time_end" type="time">' +
+              '</label></div>' +
+          '<label class="small mb-1 mt-2">Location:</label>' +
+          '<input class="form-control" name="subtask_loc" type="name" placeholder="Address">'+
+          '</div>');
+        });
+
+        $(".list").on('click', '.cancel', function(){
+        $(this).parent().remove();
+        });
+        });
+
+    include common/footer.pug
+    +footer()
+    script(src='/javascripts/tasks.js')

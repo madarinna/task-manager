@@ -1,0 +1,94 @@
+doctype html
+html(lang='en')
+  include ../common/head.pug
+  +head("To Do Lists!")
+  body
+    header
+      include ../common/navbar.pug
+      +navbar(user)
+      .container
+        .row.align-items-center
+          .col-sm-12.text-center.text-md-left.offset-md-2.col-md-8
+            h1.mt-3.text-center Your Done Tasks
+            table.table
+              thead
+                tr
+                  th(scope="col")
+                  th(scope="col") Tasks
+                  th(scope="col") Date
+                  th(scope="col") Time
+                  th(scope="col") Location
+                  th(scope="col")
+                  th(scope="col")
+                tr
+              tbody
+                for task in tasks
+                  if task.task_loc
+                    if !task.task_time_end
+                      tr(id=task.id)
+                        td
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`undoneTask('${task.id}')` checked).mt-2
+                        td
+                          span #{task.task_name}
+                        td
+                          span #{task.task_date}
+                        td
+                          span #{task.task_time_start}
+                        td
+                          span #{task.task_loc}
+                        td
+                          a(href="/task/" + task.id) Details
+                        td
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm Delete
+                    else
+                      tr(id=task.id)
+                        td
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`undoneTask('${task.id}')` checked).mt-2
+                        td
+                          span #{task.task_name}
+                        td
+                          span #{task.task_date}
+                        td
+                          span #{task.task_time_start} - #{task.task_time_end}
+                        td
+                          span #{task.task_loc}
+                        td
+                          a(href="/task/" + task.id) Details
+                        td
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm Delete
+                  else
+                    if !task.task_time_end
+                      tr(id=task.id)
+                        td
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`undoneTask('${task.id}')` checked).mt-2
+                        td
+                          span #{task.task_name}
+                        td
+                          span #{task.task_date}
+                        td
+                          span #{task.task_time_start}
+                        td
+                          span #{task.task_loc}
+                        td
+                          a(href="/task/" + task.id) Details
+                        td
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm Delete
+                    else
+                      tr(id=task.id)
+                        td
+                          input(type="checkbox" class="form-check-input" id="isDone" name="isDone" onclick=`undoneTask('${task.id}')` checked).mt-2
+                        td
+                          span #{task.task_name}
+                        td
+                          span #{task.task_date}
+                        td
+                          span #{task.task_time_start} - #{task.task_time_end}
+                        td
+                          span #{task.task_loc}
+                        td
+                          a(href="/task/" + task.id) Details
+                        td
+                          button(onclick=`deleteTask('${task.id}')`).btn.btn-danger.btn-sm Delete
+      include ../common/footer.pug
+      +footer()
+      script(src='/javascripts/tasks.js')
